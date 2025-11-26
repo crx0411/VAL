@@ -1,30 +1,76 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的视频</title>
-  <style>
-    * { margin:0; padding:0; }
-    body, html { height:100%; background:#000; overflow:hidden; }
-    video {
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-    }
-    .tip {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,255,255,0.7);
-      font: 14px/1 "Microsoft YaHei", sans-serif;
-      pointer-events: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陈锐兴的无畏时刻</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@600&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0f0f1b;color:#fff;font-family:'Rajdhani',sans-serif;overflow-y:auto;}
+
+  header{height:40vh;background:linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.85)),url('https://images.alphacoders.com/129/1299555.jpg') center/cover;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+  h1{font-family:'Orbitron',sans-serif;font-size:4rem;background:linear-gradient(90deg,#ff004c,#7f00ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .subtitle{font-size:1.5rem;margin-top:10px;}
+
+  .gallery{padding:40px 20px;max-width:1500px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:30px;}
+  .video-card{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 12px 35px rgba(0,0,0,0.8);transition:0.4s;}
+  .video-card:hover{transform:translateY(-12px);box-shadow:0 25px 60px rgba(127,0,255,0.5);}
+  .video-card video{width:100%;height:100%;object-fit:cover;display:block;}
+  .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:rgba(255,0,76,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;opacity:0;transition:0.3s;}
+  .video-card:hover .play-btn{opacity:1;}
+  .overlay{position:absolute;bottom:0;left:0;right:0;padding:40px 20px 20px;background:linear-gradient(transparent,#000);text-align:center;}
+  .video-title{font-size:1.4rem;font-weight:700;}
+
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.98);align-items:center;justify-content:center;z-index:999;padding:20px;}
+  .modal video{width:96vw;max-width:1200px;max-height:90vh;border:4px solid #ff004c;border-radius:16px;outline:none;}
+  .close{position:absolute;top:20px;right:30px;font-size:5rem;color:#fff;cursor:pointer;}
+
+  @media(max-width:768px){
+    h1{font-size:2.6rem;}
+    header{height:45vh;}
+    .gallery{grid-template-columns:1fr;}
+  }
+</style>
 </head>
 <body>
-  <video src="video.mp4" autoplay muted loop playsinline controls></video>
-  <div class="tip">点击视频右下角小喇叭可以开声音哦~</div>
+
+<header>
+  <h1>陈锐兴的无畏时刻</h1>
+  <p class="subtitle">VALORANT 高光合集</p>
+</header>
+
+<div class="gallery">
+  <!-- 第一个高光（后面想加就复制整段） -->
+  <div class="video-card" data-src="ace1.mp4">
+    <video src="ace1.mp4" muted loop preload="metadata"></video>
+    <div class="play-btn">▶</div>
+    <div class="overlay"><div class="video-title">神级 Ace / 1v5 翻盘</div></div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <span class="close">×</span>
+  <video id="fullVideo" controls autoplay></video>
+</div>
+
+<script>
+  document.querySelectorAll('.video-card').forEach(c=>{
+    const thumb = c.querySelector('video');
+    c.onmouseenter = ()=>thumb.play();
+    c.onmouseleave = ()=>thumb.pause();
+    c.onclick = ()=>{
+      document.getElementById('fullVideo').src = c.dataset.src;
+      document.getElementById('modal').style.display = 'flex';
+    };
+  });
+  document.querySelector('.close').onclick = 
+  document.getElementById('modal').onclick = e=>{
+    if(e.target===document.getElementById('modal') || e.target.classList.contains('close')){
+      document.getElementById('modal').style.display='none';
+      document.getElementById('fullVideo').src='';
+    }
+  };
+</script>
 </body>
 </html>
