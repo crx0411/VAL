@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的视频</title>
+  <style>
+    * { margin:0; padding:0; }
+    body, html { height:100%; background:#000; overflow:hidden; }
+    video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
+    .tip {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.7);
+      font: 14px/1 "Microsoft YaHei", sans-serif;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <video src="video.mp4" autoplay muted loop playsinline controls></video>
+  <div class="tip">点击视频右下角小喇叭可以开声音哦~</div>
+</body>
+</html>
